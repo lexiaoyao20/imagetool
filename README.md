@@ -18,8 +18,8 @@ imagetool 是一个强大的命令行工具，专为 iOS 项目设计，用于�
 
 2. 克隆此仓库或下载源代码：
    ```
-   git clone https://github.com/yourusername/ios-image-obfuscator.git
-   cd ios-image-obfuscator
+   git clone https://github.com/lexiaoyao20/imagetool.git
+   cd imagetool
    ```
 
 3. 安装所需依赖：
