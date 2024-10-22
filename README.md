@@ -1,58 +1,60 @@
-# iOS 图片混淆工具 (imagetool)
+# iOS Image Obfuscation Tool (imagetool)
 
-imagetool 是一个强大的命令行工具，专为 iOS 项目设计，用于自动化图片资源的混淆和管理。它能够有效地重命名图片、更新代码引用，并修改图片哈希值，从而增强应用的安全性和资源管理效率。
+[中文版 README](README_CN.md)
 
-## 功能特性
+imagetool is a powerful command-line tool designed for iOS projects to automate image resource obfuscation and management. It effectively renames images, updates code references, and modifies image hash values, enhancing application security and resource management efficiency.
 
-- **图片重命名**: 自动为项目中的图片资源生成新的随机名称。
-- **代码引用更新**: 自动更新代码文件中对重命名图片的所有引用。
-- **图片哈希值修改**: 对每张图片进行微小修改，改变其哈希值，但不影响视觉效果。
-- **空 imageset 清理**: 自动删除项目中空的 imageset 文件夹。
-- **生成报告**: 创建详细的 Excel 报告，记录所有图片修改。
-- **可配置性**: 通过 JSON 配置文件自定义工具行为。
-- **灵活的命名规则**: 支持添加自定义前缀到重命名的图片。
+## Features
 
-## 安装
+- **Image Renaming**: Automatically generates new random names for image resources in the project.
+- **Code Reference Updates**: Automatically updates all references to renamed images in code files.
+- **Image Hash Modification**: Makes minor modifications to each image, changing its hash value without affecting visual appearance.
+- **Empty Imageset Cleanup**: Automatically removes empty imageset folders from the project.
+- **Report Generation**: Creates detailed Excel reports documenting all image modifications.
+- **Configurability**: Customizes tool behavior through a JSON configuration file.
+- **Flexible Naming Rules**: Supports adding custom prefixes to renamed images.
 
-1. 确保你的系统已安装 Python 3.6 或更高版本。
+## Installation
 
-2. 克隆此仓库或下载源代码：
+1. Ensure you have Python 3.6 or higher installed on your system.
+
+2. Clone this repository or download the source code:
    ```
    git clone https://github.com/lexiaoyao20/imagetool.git
    cd imagetool
    ```
 
-3. 安装所需依赖：
+3. Install the required dependencies:
    ```
    pip install -r requirements.txt
    ```
 
-## 使用说明
+## Usage
 
-基本用法：
+Basic usage:
 
 ```
-python imagetool.py --project <iOS项目路径> [--prefix <图片名称前缀>] [--output <报告输出路径>]
+python imagetool.py --project <iOS_project_path> [--prefix <image_name_prefix>] [--output <report_output_path>]
 ```
 
-参数说明：
-- `--project`: （必需）指定 iOS 项目的根目录路径。
-- `--prefix`: （可选）为重命名的图片添加自定义前缀。
-- `--output`: （可选）指定生成的 Excel 报告的输出路径。默认为 "obfuscation_report.xlsx"。
+Parameters:
+- `--project`: (Required) Specifies the root directory path of the iOS project.
+- `--prefix`: (Optional) Adds a custom prefix to renamed images.
+- `--output`: (Optional) Specifies the output path for the generated Excel report. Default is "obfuscation_report.xlsx".
 
-示例：
+Example:
 ```
 python imagetool.py --project /path/to/your/ios/project --prefix OBF --output report.xlsx
 ```
 
-## 配置说明
+## Configuration
 
-工具使用 `config.json` 文件进行配置。你可以在此文件中指定：
+The tool uses a `config.json` file for configuration. You can specify:
 
-- `excluded_dirs`: 需要排除的目录列表。
-- `excluded_files`: 需要排除的文件列表。
+- `excluded_dirs`: List of directories to exclude.
+- `excluded_files`: List of files to exclude.
 
-示例 `config.json`:
+Example `config.json`:
 ```json
 {
   "excluded_dirs": ["Pods", "Carthage"],
@@ -60,17 +62,17 @@ python imagetool.py --project /path/to/your/ios/project --prefix OBF --output re
 }
 ```
 
-## 注意事项
+## Important Notes
 
-1. 在使用此工具之前，请确保对你的项目进行备份。
-2. 工具会修改项目文件，请在版本控制系统（如 Git）的新分支上进行操作。
-3. 运行工具后，请仔细检查生成的报告和修改后的项目，确保所有更改都符合预期。
-4. 某些复杂的图片引用（如动态生成的字符串）可能无法被自动更新，可能需要手动检查和修改。
+1. Make sure to backup your project before using this tool.
+2. The tool modifies project files, so operate on a new branch in your version control system (e.g., Git).
+3. After running the tool, carefully review the generated report and the modified project to ensure all changes meet expectations.
+4. Some complex image references (e.g., dynamically generated strings) may not be automatically updated and might require manual checking and modification.
 
-## 贡献指南
+## Contributing
 
-欢迎贡献！如果你有任何改进建议或 bug 报告，请创建一个 issue 或提交一个 pull request。
+Contributions are welcome! If you have any suggestions for improvements or bug reports, please create an issue or submit a pull request.
 
-## 许可证
+## License
 
-本项目采用 MIT 许可证。详情请见 [LICENSE](LICENSE) 文件。
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
