@@ -1,0 +1,12 @@
+{
+    "excluded_dirs": [
+        "Pods",
+        "Carthage",
+        "node_modules",
+        "CountryIcon",
+        "AppIcon.appiconset"
+    ],
+    "excluded_files": [
+        ".DS_Store"
+    ]
+}
