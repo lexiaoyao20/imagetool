@@ -77,3 +77,13 @@ python imagetool.py --project /path/to/your/ios/project --prefix OBF --output re
 ## 许可证
 
 本项目采用 MIT 许可证。详情请见 [LICENSE](LICENSE) 文件。
+
+## 发布版本
+
+你可以在 [Releases 页面](https://github.com/lexiaoyao20/imagetool/releases) 找到最新发布版本的预编译二进制文件。
+
+使用预编译二进制文件：
+
+1. 从最新发布版本下载 `imagetool` 可执行文件。
+2. 使其可执行：`chmod +x imagetool`
+3. 运行：`./imagetool --project <iOS项目路径> [--prefix <图片名称前缀>] [--output <报告输出路径>]`

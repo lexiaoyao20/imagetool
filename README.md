@@ -77,3 +77,13 @@ Contributions are welcome! If you have any suggestions for improvements or bug r
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Releases
+
+You can find pre-built binaries for the latest release on the [Releases page](https://github.com/lexiaoyao20/imagetool/releases).
+
+To use the pre-built binary:
+
+1. Download the `imagetool` executable from the latest release.
+2. Make it executable: `chmod +x imagetool`
+3. Run it: `./imagetool --project <iOS_project_path> [--prefix <image_name_prefix>] [--output <report_output_path>]`
