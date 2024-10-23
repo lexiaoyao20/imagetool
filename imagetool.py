@@ -211,49 +211,33 @@ def generate_excel_report(modifications, output_path):
     wb.save(output_path)
 
 def clean_empty_imagesets(project_path):
-    xcassets = find_xcassets(project_path)
+    """Clean empty imageset directories in the project."""
     cleaned_count = 0
-    
-    for xcasset in xcassets:
-        for root, dirs, files in os.walk(xcasset):
-            for dir in dirs:
-                if dir.endswith('.imageset'):
-                    imageset_path = os.path.join(root, dir)
-                    contents_path = os.path.join(imageset_path, 'Contents.json')
-                    
-                    if not os.path.exists(contents_path):
-                        try:
-                            shutil.rmtree(imageset_path)
-                            print(f"已删除空的 imageset: {imageset_path}")
-                            cleaned_count += 1
-                        except Exception as e:
-                            print(f"警告: 无法删除 {imageset_path}. 错误: {str(e)}")
-    
-    print(f"清理完成，共删除 {cleaned_count} 个空的 imageset 文件夹。")
+    for root, dirs, files in os.walk(project_path):
+        for dir in dirs:
+            if dir.endswith('.imageset'):
+                imageset_path = os.path.join(root, dir)
+                if not os.listdir(imageset_path):
+                    os.rmdir(imageset_path)
+                    cleaned_count += 1
+                    print(f"Removed empty imageset: {imageset_path}")
+    print(f"Cleaned {cleaned_count} empty imagesets.")
 
 def main():
-    parser = argparse.ArgumentParser(description="iOS项目图片混淆工具")
-    parser.add_argument("--project", required=True, help="iOS项目路径")
-    parser.add_argument("--prefix", default="", help="图片名称前缀")
-    parser.add_argument("--output", default="obfuscation_report.xlsx", help="输出报告的Excel文件路径")
+    parser = argparse.ArgumentParser(description="iOS Image Obfuscation Tool")
+    parser.add_argument("--project", required=True, help="Path to the iOS project")
+    parser.add_argument("--prefix", help="Prefix for renamed images")
+    parser.add_argument("--output", default="obfuscation_report.xlsx", help="Output path for the Excel report")
+    parser.add_argument("--clean-imagesets", action="store_true", help="Clean empty imageset directories")
+
     args = parser.parse_args()
-    
-    project_path = args.project
-    prefix = args.prefix
-    output_path = args.output
-    
-    if not os.path.isdir(project_path):
-        print(f"错误: {project_path} 不是有效的目录")
-        return
-    
-    # 自动执行清理操作
-    print("开始清理空的 imageset 文件夹...")
-    clean_empty_imagesets(project_path)
-    
-    print("开始执行图片混淆操作...")
-    modifications = process_imagesets(project_path, prefix)
-    generate_excel_report(modifications, output_path)
-    print(f"图片混淆完成，报告已生成: {output_path}")
+
+    if args.clean_imagesets:
+        clean_empty_imagesets(args.project)
+    else:
+        modifications = process_imagesets(args.project, args.prefix)
+        generate_excel_report(modifications, args.output)
+        print(f"Obfuscation complete. Report saved to {args.output}")
 
 if __name__ == "__main__":
     main()

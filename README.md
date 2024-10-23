@@ -13,6 +13,7 @@ imagetool is a powerful command-line tool designed for iOS projects to automate 
 - **Report Generation**: Creates detailed Excel reports documenting all image modifications.
 - **Configurability**: Customizes tool behavior through a JSON configuration file.
 - **Flexible Naming Rules**: Supports adding custom prefixes to renamed images.
+- **Standalone Empty Imageset Cleanup**: Provides a separate command to clean only empty imageset directories.
 
 ## Installation
 
