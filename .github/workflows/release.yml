@@ -85,6 +85,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          for artifact in imagetool-*/*; do
-            gh release upload ${{ github.ref_name }} "$artifact"
+          for platform in ubuntu-latest windows-latest macos-latest; do
+            for artifact in imagetool-$platform/*; do
+              filename=$(basename "$artifact")
+              extension="${filename##*.}"
+              new_filename="imagetool-$platform.$extension"
+              gh release upload ${{ github.ref_name }} "$artifact" --clobber --name "$new_filename"
+            done
           done
