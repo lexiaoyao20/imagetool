@@ -51,7 +51,7 @@ jobs:
       - name: Execute Python tests
         run: |
           pip install pytest
-          pytest
+          python -m pytest tests
       - name: Build with PyInstaller
         run: pyinstaller --onefile imagetool.py
       - name: Upload artifact
