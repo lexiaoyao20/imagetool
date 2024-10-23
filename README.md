@@ -32,7 +32,7 @@ imagetool is a powerful command-line tool designed for iOS projects to automate 
 
 ## Usage
 
-Basic usage:
+To see usage instructions and available options, simply run:
 
 ```
 python imagetool.py --project <iOS_project_path> [--prefix <image_name_prefix>] [--output <report_output_path>]

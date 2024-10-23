@@ -7,12 +7,20 @@ import re
 import json
 import string
 from openpyxl import Workbook
+import sys
 
 
 def load_config():
-    config_path = os.path.join(os.path.dirname(__file__), "config.json")
-    with open(config_path, "r") as f:
-        return json.load(f)
+    try:
+        config_path = os.path.join(os.path.dirname(sys.executable), "config.json")
+        with open(config_path, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("警告: 未找到配置文件 config.json。使用默认配置。")
+        return {
+            "excluded_dirs": ["Pods", "Carthage"],
+            "excluded_files": ["AppIcon.appiconset", "LaunchImage.launchimage"]
+        }
 
 
 config = load_config()
@@ -248,7 +256,7 @@ def clean_empty_imagesets(project_path):
 
 def main():
     parser = argparse.ArgumentParser(description="iOS Image Obfuscation Tool")
-    parser.add_argument("--project", required=True, help="Path to the iOS project")
+    parser.add_argument("--project", help="Path to the iOS project")
     parser.add_argument("--prefix", help="Prefix for renamed images")
     parser.add_argument(
         "--output",
@@ -262,6 +270,23 @@ def main():
     )
 
     args = parser.parse_args()
+
+    if len(sys.argv) == 1:
+        print("iOS Image Obfuscation Tool")
+        print("用法: imagetool [选项]")
+        print("\n可用选项:")
+        print("  --project PATH    指定 iOS 项目的路径（必需）")
+        print("  --prefix PREFIX   为重命名的图片添加前缀（可选）")
+        print("  --output PATH     指定输出报告的路径（默认: obfuscation_report.xlsx）")
+        print("  --clean-imagesets 清理空的 imageset 目录")
+        print("\n示例:")
+        print("  imagetool --project /path/to/ios/project --prefix OBF")
+        print("  imagetool --project /path/to/ios/project --clean-imagesets")
+        sys.exit(0)
+
+    if not args.project:
+        print("错误: 必须指定项目路径。使用 --project 选项。")
+        sys.exit(1)
 
     if args.clean_imagesets:
         clean_empty_imagesets(args.project)

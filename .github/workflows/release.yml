@@ -53,7 +53,7 @@ jobs:
           pip install pytest
           python -m pytest tests
       - name: Build with PyInstaller
-        run: pyinstaller --onefile imagetool.py
+        run: pyinstaller --onefile --add-data "config.json:." imagetool.py
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
