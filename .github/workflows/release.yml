@@ -36,10 +36,14 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
           pip install pyinstaller
-      - name: Check code format
+      - name: Check and format code
         run: |
           pip install black
-          black --check .
+          black .
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff --quiet && git diff --staged --quiet || git commit -m "Apply automatic formatting"
       - name: Lint Python sources
         run: |
           pip install flake8
