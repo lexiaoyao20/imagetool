@@ -47,7 +47,7 @@ jobs:
       - name: Lint Python sources
         run: |
           pip install flake8
-          flake8 . --config=.flake8
+          flake8 . --config=.flake8 --exclude=.venv
       - name: Execute Python tests
         run: |
           pip install pytest
