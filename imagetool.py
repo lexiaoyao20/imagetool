@@ -19,7 +19,7 @@ def load_config():
         print("警告: 未找到配置文件 config.json。使用默认配置。")
         return {
             "excluded_dirs": ["Pods", "Carthage"],
-            "excluded_files": ["AppIcon.appiconset", "LaunchImage.launchimage"]
+            "excluded_files": ["AppIcon.appiconset", "LaunchImage.launchimage"],
         }
 
 
@@ -70,9 +70,7 @@ def find_code_files(project_path):
 def generate_new_name(old_name, prefix):
     # 生成随机后缀
     suffix_length = 3
-    suffix = "".join(
-        random.choices(string.ascii_lowercase + string.digits, k=suffix_length)
-    )
+    suffix = "".join(random.choices(string.ascii_lowercase + string.digits, k=suffix_length))
 
     # 组合新名称
     if prefix:
@@ -137,9 +135,7 @@ def update_code_references(code_files, old_name, new_name):
 
             # 更新图片名称引用
             updated_content = re.sub(
-                r'(?<=["\'])' + re.escape(old_name) + r'(?=["\'])',
-                new_name,
-                content
+                r'(?<=["\'])' + re.escape(old_name) + r'(?=["\'])', new_name, content
             )
 
             if updated_content != content:
@@ -174,9 +170,7 @@ def process_imagesets(project_path, prefix):
 
                 for image_info in contents["images"]:
                     if "filename" in image_info:
-                        image_path = os.path.join(
-                            imageset, image_info["filename"]
-                        )
+                        image_path = os.path.join(imageset, image_info["filename"])
                         if os.path.exists(image_path):
                             obfuscate_image(image_path)
                         else:
@@ -186,19 +180,19 @@ def process_imagesets(project_path, prefix):
                 new_name = generate_new_name(old_name, prefix)
 
                 # 重命名 .imageset 目录
-                new_imageset = os.path.join(
-                    os.path.dirname(imageset), f"{new_name}.imageset"
-                )
+                new_imageset = os.path.join(os.path.dirname(imageset), f"{new_name}.imageset")
                 os.rename(imageset, new_imageset)
 
                 print(f"处理图片集: {old_name} -> {new_name}")
 
                 # 记录修改
-                modifications.append({
-                    "old_name": old_name,
-                    "new_name": new_name,
-                    "path": os.path.relpath(new_imageset, project_path),
-                })
+                modifications.append(
+                    {
+                        "old_name": old_name,
+                        "new_name": new_name,
+                        "path": os.path.relpath(new_imageset, project_path),
+                    }
+                )
 
                 # 更新代码中的引用
                 update_code_references(code_files, old_name, new_name)
@@ -259,14 +253,10 @@ def main():
     parser.add_argument("--project", help="Path to the iOS project")
     parser.add_argument("--prefix", help="Prefix for renamed images")
     parser.add_argument(
-        "--output",
-        default="obfuscation_report.xlsx",
-        help="Output path for the Excel report"
+        "--output", default="obfuscation_report.xlsx", help="Output path for the Excel report"
     )
     parser.add_argument(
-        "--clean-imagesets",
-        action="store_true",
-        help="Clean empty imageset directories"
+        "--clean-imagesets", action="store_true", help="Clean empty imageset directories"
     )
 
     args = parser.parse_args()
@@ -293,8 +283,7 @@ def main():
     else:
         modifications = process_imagesets(args.project, args.prefix)
         generate_excel_report(modifications, args.output)
-        print("Obfuscation complete. "
-              f"Report saved to {args.output}")
+        print("Obfuscation complete. " f"Report saved to {args.output}")
 
 
 if __name__ == "__main__":
