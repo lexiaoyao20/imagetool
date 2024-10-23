@@ -81,15 +81,22 @@ jobs:
             --title "Release ${{ github.ref_name }}" \
             --generate-notes
       - uses: actions/download-artifact@v3
-      - name: Upload Release Assets
+        with:
+          path: artifacts
+      - name: Rename and Upload Release Assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           for platform in ubuntu-latest windows-latest macos-latest; do
-            for artifact in imagetool-$platform/*; do
+            for artifact in artifacts/imagetool-$platform/*; do
               filename=$(basename "$artifact")
               extension="${filename##*.}"
-              new_filename="imagetool-$platform.$extension"
-              gh release upload ${{ github.ref_name }} "$artifact" --clobber --name "$new_filename"
+              if [ "$extension" = "$filename" ]; then
+                new_filename="imagetool-$platform"
+              else
+                new_filename="imagetool-$platform.$extension"
+              fi
+              mv "$artifact" "$new_filename"
+              gh release upload ${{ github.ref_name }} "$new_filename" --clobber
             done
           done
